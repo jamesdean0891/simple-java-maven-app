@@ -1,6 +1,8 @@
 pipeline {
     agent any
-  
+    options {
+        skipStagesAfterUnstable()
+    }
     stages {
         stage('Build') {
             steps {
@@ -10,7 +12,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing...'
                 sh 'mvn test'
             }
             post {
@@ -21,7 +23,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploying...'
+                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
